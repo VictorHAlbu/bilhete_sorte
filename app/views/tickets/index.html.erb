@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Tickets</h1>
+ <h1>Usuario: <%= current_user.email %> </h1>
+ <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
 
 <table>
   <thead>
@@ -25,9 +27,10 @@
     <% end %>
 
   </tbody>
-  <%= total_numbers_in_single_array %>
-
+  
 </table>
+<h3>Total de numeros:</h3>
+<%= total_numbers_in_single_array %>
 <br>
 
 <%= link_to 'New Ticket', new_ticket_path %>

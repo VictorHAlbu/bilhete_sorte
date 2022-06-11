@@ -1,9 +1,10 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /tickets or /tickets.json
   def index
-    @tickets = Ticket.all
+    @tickets = Ticket.where(user_id: current_user.id)
   end
 
   # GET /tickets/1 or /tickets/1.json
@@ -12,7 +13,7 @@ class TicketsController < ApplicationController
 
   # GET /tickets/new
   def new
-    @ticket = Ticket.new
+    @ticket = current_user.tickets.new
   end
 
   # GET /tickets/1/edit
@@ -21,7 +22,7 @@ class TicketsController < ApplicationController
 
   # POST /tickets or /tickets.json
   def create
-    @ticket = Ticket.new(ticket_params)    
+    @ticket = current_user.tickets.new(ticket_params)    
     respond_to do |format|
       if @ticket.save
         format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully created." }
@@ -64,6 +65,6 @@ class TicketsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ticket_params
-      params.require(:ticket).permit(:name, :valor, :numbers_ticket)
+      params.require(:ticket).permit(:name, :valor, :numbers_ticket, :user_id)
     end
 end
