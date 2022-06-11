@@ -2,7 +2,7 @@ class Ticket < ApplicationRecord
 
   before_save :generate_numbers_ticket
   validates_uniqueness_of :numbers_ticket
-  validate :posts_count_within_limit, on: :create
+  validate :tickets_count_within_limit, on: :create
   belongs_to :user
 
   attr_accessor :numbers
@@ -33,7 +33,7 @@ class Ticket < ApplicationRecord
   
   
 
-  def posts_count_within_limit
+  def tickets_count_within_limit
     if total_numbers_in_single_array.count >= 10000
       errors.add(:base, 'Limite total de bilhetes vendidos.')
     end
